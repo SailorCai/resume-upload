@@ -2,27 +2,18 @@
  * @Author: SailorCai
  * @Date: 2020-10-19 11:34:38
  * @LastEditors: SailorCai
- * @LastEditTime: 2020-10-21 09:29:54
+ * @LastEditTime: 2020-10-21 19:06:35
  * @FilePath: /resume-upload/src/lib/Uploader.js
  */
 class Uploader {
-  bindEvents() {
-    const drag = this.$refs.drag;
-    drag.addEventListener("dragover", e => {
-      drag.style.borderColor = "red";
-      e.preventDefault();
-    });
-    drag.addEventListener("dragleave", e => {
-      drag.style.borderColor = "#eee";
-      e.preventDefault();
-    });
-    drag.addEventListener("drop", e => {
-      e.preventDefault();
-
-      const fileList = e.dataTransfer.files;
-      this.file = fileList[0];
-      drag.style.borderColor = "#eee";
-    });
+  constructor(options) {
+    this.uploadUrl = options.uploadUrl;
+    this.method = options.method;
+    this.hashProgress = 0;
+  }
+  upload(file) {
+    this.file = file;
+    this.uploadFile();
   }
   isImage(file) {
     // 通过文件流来判定
@@ -169,8 +160,13 @@ class Uploader {
     }
     const chunks = this.createFileChunk(this.file);
     // const hash = await this.calculateHashWorker()
-    // const hash1 = await this.calculateHashIdle()
-    const hash = await this.calculateHashSample();
+    let hash;
+    if(window.requestIdleCallback) {
+      hash = await this.calculateHashIdle()
+    }else{
+      hash = await this.calculateHashSample();
+    };
+    
     this.hash = hash;
 
     // 问下后端，文件是否上传成功，如果没有，是否有存在的切片

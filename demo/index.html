@@ -1,0 +1,27 @@
+<!--
+ * @Author: SailorCai
+ * @Date: 2020-10-21 19:39:39
+ * @LastEditors: SailorCai
+ * @LastEditTime: 2020-10-21 20:11:04
+ * @FilePath: /resume-upload/demo/index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+  <h1>文件分片上传demo</h1>
+  <input type="file" placeholder="请选择文件">
+  <script src="../src/index.js" ></script>
+  <script>
+    // import upload from '../src/index.js';
+    
+    console.log(resumeInit);
+    var uploader = resumeInit({
+      uploadUrl
+    });
+  </script>
+</body>
+</html>
