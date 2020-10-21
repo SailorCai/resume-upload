@@ -1,0 +1,19 @@
+{
+  "name": "resume-upload",
+  "version": "1.0.0",
+  "description": "resume upload file from break-point ",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SailorCai/resume-upload.git"
+  },
+  "author": "SailorCai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SailorCai/resume-upload/issues"
+  },
+  "homepage": "https://github.com/SailorCai/resume-upload#readme"
+}
