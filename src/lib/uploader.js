@@ -2,14 +2,17 @@
  * @Author: SailorCai
  * @Date: 2020-10-19 11:34:38
  * @LastEditors: SailorCai
- * @LastEditTime: 2020-10-21 19:06:35
+ * @LastEditTime: 2020-10-22 09:59:17
  * @FilePath: /resume-upload/src/lib/Uploader.js
  */
+const Axios = require('axios');
+
 class Uploader {
   constructor(options) {
     this.uploadUrl = options.uploadUrl;
     this.method = options.method;
     this.hashProgress = 0;
+    this.CHUNK_SIZE = options.chunkSize || 1024 * 2;
   }
   upload(file) {
     this.file = file;
@@ -318,4 +321,5 @@ class Uploader {
     this.file = file;
   }
 }
+Uploader.prototype.$http = Axios;
 module.exports = Uploader;

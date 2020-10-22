@@ -2,7 +2,7 @@
  * @Author: SailorCai
  * @Date: 2020-10-20 15:40:43
  * @LastEditors: SailorCai
- * @LastEditTime: 2020-10-21 20:00:21
+ * @LastEditTime: 2020-10-22 09:38:43
  * @FilePath: /resume-upload/src/index.js
  */
 
@@ -11,8 +11,8 @@
   * 
   * 
   */
-// exports = module.exports = 
-function resumeInit(options) {
+const Uploader = require('./lib/uploader')
+exports = module.exports = function resumeInit(options = {}) {
   var uploader;
   var preset = {
     uploadUrl: options.uploadUrl,
