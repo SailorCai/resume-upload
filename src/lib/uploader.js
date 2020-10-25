@@ -2,10 +2,12 @@
  * @Author: SailorCai
  * @Date: 2020-10-19 11:34:38
  * @LastEditors: SailorCai
- * @LastEditTime: 2020-10-22 09:59:17
+ * @LastEditTime: 2020-10-24 22:08:27
  * @FilePath: /resume-upload/src/lib/Uploader.js
  */
 const Axios = require('axios');
+const SparkMD5 = require('spark-md5');
+const CHUNK_SIZE = 1024 * 1024;
 
 class Uploader {
   constructor(options) {
@@ -98,6 +100,7 @@ class Uploader {
         });
       };
       const workLoop = async deadline => {
+        console.log('chunks', chunks);
         while (count < chunks.length && deadline.timeRemaining() > 1) {
           // 空闲时间，且有任务
           await appendToSaprk(chunks[count].file);
@@ -111,7 +114,7 @@ class Uploader {
             resolve(spark.end());
           }
         }
-        window.requestIdleCallback(workLoop);
+        count < chunks.length && window.requestIdleCallback(workLoop);
       };
       window.requestIdleCallback(workLoop);
     });
@@ -162,6 +165,7 @@ class Uploader {
       return
     }
     const chunks = this.createFileChunk(this.file);
+    this.chunks = chunks;
     // const hash = await this.calculateHashWorker()
     let hash;
     if(window.requestIdleCallback) {
@@ -204,6 +208,7 @@ class Uploader {
         progress: uploadedList.indexOf(name) > -1 ? 100 : 0
       };
     });
+    console.log('this.chunks', this.chunks);
     await this.uploadChunks(uploadedList);
   }
   async uploadChunks(uploadedList) {
@@ -321,5 +326,17 @@ class Uploader {
     this.file = file;
   }
 }
-Uploader.prototype.$http = Axios;
+
+const axios = Axios.create({
+  baseURL: '/api',
+});
+
+axios.interceptors.response.use(function(res) {
+  console.log(res);
+  return res.data;
+}, function(err) {
+  console.log(err);
+});
+
+Uploader.prototype.$http = axios;
 module.exports = Uploader;
